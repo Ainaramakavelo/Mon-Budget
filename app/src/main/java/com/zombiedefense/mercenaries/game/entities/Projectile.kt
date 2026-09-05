@@ -11,8 +11,10 @@ class Projectile(
     private val movingRight: Boolean,
     val damage: Float,
     private val ownerColor: Int,
-    /** > 0 pour un tir d'artillerie : inflige des dégâts à tous les zombies dans ce rayon d'impact. */
+    /** > 0 pour un tir en zone (artillerie, sort de malédiction) : touche tout ce qui est dans ce rayon. */
     private val splashRadius: Float = 0f,
+    /** false = tiré par un mercenaire (touche les zombies) ; true = tiré par un boss (touche les mercenaires). */
+    private val isHostile: Boolean = false,
 ) : Entity(x, y, if (splashRadius > 0f) 20f else 14f, if (splashRadius > 0f) 20f else 14f) {
 
     override var health: Float = 1f
@@ -28,18 +30,23 @@ class Projectile(
             health = 0f
             return
         }
-        val hitZombie = engine.zombies.firstOrNull { it.isAlive && bounds().intersect(it.bounds()) }
-        if (hitZombie != null) {
+        val potentialTargets: List<Entity> = if (isHostile) {
+            engine.mercenaries.filter { it.isAlive }
+        } else {
+            engine.allEnemies()
+        }
+        val hitTarget = potentialTargets.firstOrNull { bounds().intersect(it.bounds()) }
+        if (hitTarget != null) {
             hasHit = true
             if (splashRadius > 0f) {
-                val impactX = hitZombie.centerX()
-                engine.zombies.forEach { zombie ->
-                    if (zombie.isAlive && kotlin.math.abs(zombie.centerX() - impactX) <= splashRadius) {
-                        zombie.takeDamage(damage)
+                val impactX = hitTarget.centerX()
+                potentialTargets.forEach { target ->
+                    if (kotlin.math.abs(target.centerX() - impactX) <= splashRadius) {
+                        target.health = (target.health - damage).coerceAtLeast(0f)
                     }
                 }
             } else {
-                hitZombie.takeDamage(damage)
+                hitTarget.health = (hitTarget.health - damage).coerceAtLeast(0f)
             }
             health = 0f
         }

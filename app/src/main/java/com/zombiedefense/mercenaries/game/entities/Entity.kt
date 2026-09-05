@@ -21,6 +21,10 @@ abstract class Entity(
 
     fun distanceTo(other: Entity): Float = kotlin.math.abs(centerX() - other.centerX())
 
+    open fun takeDamage(amount: Float) {
+        health = (health - amount).coerceAtLeast(0f)
+    }
+
     abstract fun update(dt: Float, engine: GameEngine)
     abstract fun render(canvas: Canvas)
 

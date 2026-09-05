@@ -52,7 +52,7 @@ class Mercenary(
             val target: Entity? = if (type.isHealer) {
                 engine.findNearestWoundedAlly(this)
             } else {
-                engine.findNearestZombieFrom(centerX())
+                engine.findNearestEnemyFrom(centerX())
             }
             if (target != null && distanceTo(target) > type.attackRange * 0.8f) {
                 x += (if (target.centerX() > centerX()) 1f else -1f) * type.moveSpeed * dt
@@ -69,7 +69,7 @@ class Mercenary(
                     attackCooldownRemaining = type.attackCooldown
                 }
             } else {
-                val target = engine.findNearestZombieFrom(centerX())
+                val target = engine.findNearestEnemyFrom(centerX())
                 if (target != null && distanceTo(target) <= type.attackRange) {
                     performAttack(target, engine)
                     attackCooldownRemaining = type.attackCooldown
@@ -79,7 +79,7 @@ class Mercenary(
         if (isPlayerControlled) attackRequested = false
     }
 
-    private fun performAttack(target: Zombie, engine: GameEngine) {
+    private fun performAttack(target: Entity, engine: GameEngine) {
         if (type.isRanged) {
             val movingRight = target.centerX() > centerX()
             engine.spawnProjectile(

@@ -58,7 +58,7 @@ sans utiliser de terminal :
 
 ---
 
-## Ce que fait l'application (v0.4)
+## Ce que fait l'application (v0.5)
 
 - Un écran d'histoire au lancement : le contexte de Valombre et de sa malédiction, avec un bouton
   "Rassembler l'équipe" pour continuer. Un lien "Revoir l'histoire" sur l'écran de sélection permet
@@ -72,6 +72,13 @@ sans utiliser de terminal :
   deux zombies rétrécit avec le temps (ça devient plus dur plus on survit).
 - Deux types de zombies pour l'instant : le "marcheur" (lent, robuste) et le "coureur" (rapide,
   fragile) — de plus en plus de coureurs apparaissent avec le temps.
+- Des boss liés à la malédiction, qui surgissent périodiquement (le premier après 45 secondes, puis
+  environ toutes les 100 secondes) avec une bannière d'annonce et une barre de vie dédiée à l'écran.
+  Ils alternent et deviennent plus coriaces à chaque apparition :
+  - **Le Fossoyeur Maudit** : un colosse lent mais très résistant, qui frappe fort au corps-à-corps.
+  - **Le Nécromancien des Cendres** : la source de la malédiction elle-même. Il attaque à distance
+    avec une explosion de magie noire (dégâts de zone) et relève régulièrement des zombies autour de
+    lui pour renforcer la horde.
 - Six types de mercenaires disponibles au recrutement ; celui que tu joues directement se déplace,
   saute et attaque au corps-à-corps ou à distance selon son type, les autres se battent
   automatiquement à tes côtés :
@@ -99,6 +106,10 @@ Le code est organisé pour qu'ajouter du contenu plus tard soit simple :
   ajouter une entrée dans ce fichier — c'est le point d'extension prévu pour arriver aux "dizaines
   de personnages" évoqués au départ.
 - `game/ZombieType.kt` : pareil, côté zombies (variantes de vitesse/vie/dégâts).
+- `game/BossType.kt` : pareil pour les boss (stats, capacité d'invocation, phrase d'annonce et de
+  contexte). Ajouter un nouveau boss revient à ajouter une entrée ici.
+- `game/Lore.kt` : le contexte narratif (nom du village, texte de l'écran d'histoire) — à enrichir
+  au fur et à mesure (autres villages, chapitres...).
 - `game/entities/` : le comportement (déplacement, attaque, rendu) de chaque type d'entité
   (mercenaire, zombie, village, projectile).
 - `game/GameEngine.kt` : la boucle de simulation (vagues, IA, collisions) et le rendu.

@@ -15,5 +15,7 @@ object Lore {
             "des kilomètres. S'il tombe, plus rien n'arrêtera les morts avant la capitale.",
         "Une compagnie de mercenaires a été engagée à prix d'or pour tenir la ligne : la Garde du " +
             "Pont. Combien de temps devront-ils résister ? Personne ne le sait — pas même eux.",
+        "Par moments, la horde s'organise autour d'un champion maudit — et parfois, c'est la source " +
+            "même de la malédiction qui sort du cimetière pour percer la ligne.",
     )
 }

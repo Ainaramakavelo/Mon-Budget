@@ -21,15 +21,11 @@ class Zombie(
     private val barPaint = Paint()
     private val barBgPaint = Paint()
 
-    fun takeDamage(amount: Float) {
-        health = (health - amount).coerceAtLeast(0f)
-    }
-
     override fun update(dt: Float, engine: GameEngine) {
         if (!isAlive) return
         attackCooldownRemaining = (attackCooldownRemaining - dt).coerceAtLeast(0f)
 
-        val target = engine.findNearestTargetForZombie(this)
+        val target = engine.findNearestTargetForAttacker(this)
         if (target != null && distanceTo(target) <= type.attackRange) {
             if (attackCooldownRemaining <= 0f) {
                 target.health = (target.health - type.damage).coerceAtLeast(0f)

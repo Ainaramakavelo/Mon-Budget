@@ -63,6 +63,37 @@ fun GameScreen(teamConfig: TeamConfig, onBackToSelection: () -> Unit) {
             ) {
                 Text(text = "Survécu : ${uiState.survivedSeconds}s", color = Color.White)
                 Text(text = "Zombies éliminés : ${uiState.zombiesKilled}", color = Color.White)
+                Text(text = "Boss vaincus : ${uiState.bossesDefeated}", color = Color.White)
+            }
+            val bossName = uiState.bossName
+            if (bossName != null) {
+                Text(
+                    text = bossName,
+                    color = Color(0xFFFF5252),
+                    style = MaterialTheme.typography.labelLarge,
+                    modifier = Modifier.padding(top = 8.dp),
+                )
+                LinearProgressIndicator(
+                    progress = { (uiState.bossHealth / uiState.bossMaxHealth).coerceIn(0f, 1f) },
+                    color = Color(0xFFFF5252),
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        }
+
+        val announcement = uiState.announcement
+        if (announcement != null) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .background(Color(0xAA000000))
+                    .padding(horizontal = 20.dp, vertical = 12.dp),
+            ) {
+                Text(
+                    text = announcement,
+                    color = Color(0xFFFF5252),
+                    style = MaterialTheme.typography.titleMedium,
+                )
             }
         }
 
