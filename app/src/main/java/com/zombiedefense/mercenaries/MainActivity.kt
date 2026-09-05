@@ -6,8 +6,14 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import com.zombiedefense.mercenaries.game.TeamConfig
 import com.zombiedefense.mercenaries.ui.GameScreen
+import com.zombiedefense.mercenaries.ui.TeamSelectionScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,7 +21,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    GameScreen()
+                    var teamConfig by remember { mutableStateOf<TeamConfig?>(null) }
+                    val currentConfig = teamConfig
+                    if (currentConfig == null) {
+                        TeamSelectionScreen(onStart = { teamConfig = it })
+                    } else {
+                        GameScreen(teamConfig = currentConfig, onBackToSelection = { teamConfig = null })
+                    }
                 }
             }
         }

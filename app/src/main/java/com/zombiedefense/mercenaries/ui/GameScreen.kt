@@ -27,11 +27,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.zombiedefense.mercenaries.game.GameView
+import com.zombiedefense.mercenaries.game.TeamConfig
 
 @Composable
-fun GameScreen() {
+fun GameScreen(teamConfig: TeamConfig, onBackToSelection: () -> Unit) {
     val context = LocalContext.current
-    val gameView = remember { GameView(context) }
+    val gameView = remember(teamConfig) {
+        GameView(context).apply { engine.configureTeam(teamConfig) }
+    }
     val uiState by gameView.engine.uiState.collectAsState()
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -96,8 +99,16 @@ fun GameScreen() {
                         text = "Survécu ${uiState.survivedSeconds}s — ${uiState.zombiesKilled} zombies éliminés",
                         color = Color.White,
                     )
-                    Button(onClick = { gameView.engine.reset() }, modifier = Modifier.padding(top = 16.dp)) {
-                        Text("Recommencer")
+                    Row(
+                        modifier = Modifier.padding(top = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                    ) {
+                        Button(onClick = { gameView.engine.reset() }) {
+                            Text("Recommencer")
+                        }
+                        Button(onClick = onBackToSelection) {
+                            Text("Changer d'équipe")
+                        }
                     }
                 }
             }

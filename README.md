@@ -57,15 +57,19 @@ sans utiliser de terminal :
 
 ---
 
-## Ce que fait l'application (v0.2)
+## Ce que fait l'application (v0.3)
 
+- Un écran de sélection d'équipe avant la partie : tu choisis lequel des 6 mercenaires tu joues
+  directement (bouton "Jouable"), et tu coches ceux qui t'accompagnent au combat (les autres restent
+  à la caserne). La fiche de chaque personnage (PV, dégâts ou soin, portée) s'affiche sur sa carte.
 - Un village (à droite de l'écran) avec une barre de vie, à défendre.
 - Une horde de zombies inarrêtable : elle spawn en continu depuis la gauche, et l'intervalle entre
   deux zombies rétrécit avec le temps (ça devient plus dur plus on survit).
 - Deux types de zombies pour l'instant : le "marcheur" (lent, robuste) et le "coureur" (rapide,
   fragile) — de plus en plus de coureurs apparaissent avec le temps.
-- Une équipe de six mercenaires : tu contrôles directement le **Soldat** (déplacement gauche/droite,
-  saut, attaque au corps-à-corps), les cinq autres se battent automatiquement à tes côtés :
+- Six types de mercenaires disponibles au recrutement ; celui que tu joues directement se déplace,
+  saute et attaque au corps-à-corps ou à distance selon son type, les autres se battent
+  automatiquement à tes côtés :
   - **Tank** : très résistant, attire l'attention des zombies à distance (aggro) pour protéger le
     reste de l'équipe.
   - **Archer** : dégâts à distance rapides et légers (flèches).
@@ -76,7 +80,8 @@ sans utiliser de terminal :
     portée.
 - Contrôles à l'écran : ◀ ▶ pour se déplacer, boutons "Saut" et "Attaque" à droite.
 - Partie sans fin : le but est de survivre le plus longtemps possible et d'éliminer un maximum de
-  zombies. Quand la vie du village tombe à zéro, c'est game over avec un bouton "Recommencer".
+  zombies. Quand la vie du village tombe à zéro, c'est game over avec deux boutons : "Recommencer"
+  (même équipe) et "Changer d'équipe" (retour à l'écran de sélection).
 - Pour l'instant l'art est en formes géométriques colorées (pas de sprites dessinés) — à remplacer
   plus tard par de vrais visuels si tu veux.
 

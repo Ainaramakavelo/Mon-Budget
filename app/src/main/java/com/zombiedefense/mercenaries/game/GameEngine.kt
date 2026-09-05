@@ -43,6 +43,15 @@ class GameEngine {
     private var isGameOver = false
     private var initialized = false
 
+    private var roster: List<CharacterType> = CharacterCatalog.ALL
+    private var playerCharacterId: String = CharacterCatalog.SOLDIER.id
+
+    /** À appeler avant le premier setWorldSize() (donc avant que la SurfaceView ne s'attache). */
+    fun configureTeam(config: TeamConfig) {
+        roster = config.roster.ifEmpty { CharacterCatalog.ALL }
+        playerCharacterId = config.playerCharacterId
+    }
+
     private val backgroundPaint = Paint().apply { color = 0xFF0D1B0D.toInt() }
     private val groundPaint = Paint().apply { color = 0xFF3E2723.toInt() }
 
@@ -78,14 +87,14 @@ class GameEngine {
         zombies.clear()
         projectiles.clear()
 
-        CharacterCatalog.ALL.forEachIndexed { index, type ->
+        roster.forEachIndexed { index, type ->
             val startX = village.x - 140f - index * 80f
             mercenaries.add(
                 Mercenary(
                     x = startX,
                     y = groundY - type.height,
                     type = type,
-                    isPlayerControlled = type.id == CharacterCatalog.SOLDIER.id,
+                    isPlayerControlled = type.id == playerCharacterId,
                 )
             )
         }
