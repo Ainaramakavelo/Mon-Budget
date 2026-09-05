@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -33,6 +34,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
+import com.zombiedefense.mercenaries.game.BossCatalog
+import com.zombiedefense.mercenaries.game.BossType
 import com.zombiedefense.mercenaries.game.CharacterCatalog
 import com.zombiedefense.mercenaries.game.CharacterType
 import com.zombiedefense.mercenaries.game.TeamConfig
@@ -97,6 +100,29 @@ fun TeamSelectionScreen(onStart: (TeamConfig) -> Unit, onViewStory: () -> Unit) 
                         }
                     },
                 )
+            }
+        }
+
+        Text(
+            text = "Menaces liées à la malédiction",
+            color = Color(0xFFFF5252),
+            style = MaterialTheme.typography.titleSmall,
+            modifier = Modifier.padding(top = 12.dp),
+        )
+        Text(
+            text = "Des champions maudits surgissent du cimetière au fil de la partie, de plus en plus coriaces.",
+            color = Color(0xFFBBBBBB),
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(top = 2.dp, bottom = 8.dp),
+        )
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            BossCatalog.ALL.forEach { bossType ->
+                BossCard(bossType)
             }
         }
 
@@ -175,4 +201,51 @@ private fun roleLabel(type: CharacterType): String = when {
     type.aggroBonus > 0f -> "Tank"
     type.isRanged -> "Distance"
     else -> "Corps-à-corps"
+}
+
+@Composable
+private fun BossCard(type: BossType) {
+    Column(
+        modifier = Modifier
+            .width(180.dp)
+            .height(190.dp)
+            .background(Color(0xFF2A1414), RoundedCornerShape(12.dp))
+            .border(2.dp, Color(0xFF6B1414), RoundedCornerShape(12.dp))
+            .padding(10.dp)
+            .verticalScroll(rememberScrollState()),
+    ) {
+        Box(
+            modifier = Modifier
+                .size(32.dp)
+                .background(Color(type.bodyColor), CircleShape)
+                .border(2.dp, Color(type.eyeColor), CircleShape),
+        )
+        Text(
+            text = type.displayName,
+            color = Color(0xFFFF5252),
+            style = MaterialTheme.typography.titleSmall,
+            modifier = Modifier.padding(top = 6.dp),
+        )
+        Text(
+            text = if (type.isRanged) "Boss à distance" else "Boss corps-à-corps",
+            color = Color(0xFFBBBBBB),
+            style = MaterialTheme.typography.bodySmall,
+        )
+        Text(text = "PV : ${type.baseHealth.toInt()}+", color = Color(0xFFBBBBBB), style = MaterialTheme.typography.bodySmall)
+        Text(text = "Dégâts : ${type.damage.toInt()}", color = Color(0xFFBBBBBB), style = MaterialTheme.typography.bodySmall)
+        if (type.canSummon) {
+            Text(
+                text = "Relève ${type.summonCount} zombies près de lui",
+                color = Color(0xFFBBBBBB),
+                style = MaterialTheme.typography.bodySmall,
+            )
+        }
+        Text(
+            text = type.lore,
+            color = Color(0xFFCC9999),
+            style = MaterialTheme.typography.bodySmall,
+            fontStyle = FontStyle.Italic,
+            modifier = Modifier.padding(top = 6.dp),
+        )
+    }
 }

@@ -58,7 +58,7 @@ sans utiliser de terminal :
 
 ---
 
-## Ce que fait l'application (v0.5)
+## Ce que fait l'application (v0.6)
 
 - Un écran d'histoire au lancement : le contexte de Valombre et de sa malédiction, avec un bouton
   "Rassembler l'équipe" pour continuer. Un lien "Revoir l'histoire" sur l'écran de sélection permet
@@ -66,7 +66,9 @@ sans utiliser de terminal :
 - Un écran de sélection d'équipe avant la partie : tu choisis lequel des 6 mercenaires tu joues
   directement (bouton "Jouable"), et tu coches ceux qui t'accompagnent au combat (les autres restent
   à la caserne). La fiche de chaque personnage (rôle, PV, dégâts ou soin, portée, et une courte bio)
-  s'affiche sur sa carte.
+  s'affiche sur sa carte. En dessous, une carte narrative par boss ("Menaces liées à la malédiction")
+  présente son rôle, ses PV/dégâts, sa capacité spéciale éventuelle et sa phrase de contexte — de
+  quoi savoir à quoi s'attendre avant même de lancer la partie.
 - Le village de Valombre (à droite de l'écran) avec une barre de vie, à défendre.
 - Une horde de zombies inarrêtable : elle spawn en continu depuis la gauche, et l'intervalle entre
   deux zombies rétrécit avec le temps (ça devient plus dur plus on survit).
