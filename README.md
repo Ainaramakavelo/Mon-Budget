@@ -57,16 +57,23 @@ sans utiliser de terminal :
 
 ---
 
-## Ce que fait l'application (v0.1)
+## Ce que fait l'application (v0.2)
 
 - Un village (à droite de l'écran) avec une barre de vie, à défendre.
 - Une horde de zombies inarrêtable : elle spawn en continu depuis la gauche, et l'intervalle entre
   deux zombies rétrécit avec le temps (ça devient plus dur plus on survit).
 - Deux types de zombies pour l'instant : le "marcheur" (lent, robuste) et le "coureur" (rapide,
   fragile) — de plus en plus de coureurs apparaissent avec le temps.
-- Une équipe de mercenaires : tu contrôles directement un **Soldat** (déplacement gauche/droite,
-  saut, attaque au corps-à-corps) pendant qu'un **Mage** allié se bat automatiquement à distance
-  (boules de feu) contre le zombie le plus proche.
+- Une équipe de six mercenaires : tu contrôles directement le **Soldat** (déplacement gauche/droite,
+  saut, attaque au corps-à-corps), les cinq autres se battent automatiquement à tes côtés :
+  - **Tank** : très résistant, attire l'attention des zombies à distance (aggro) pour protéger le
+    reste de l'équipe.
+  - **Archer** : dégâts à distance rapides et légers (flèches).
+  - **Mage** : dégâts à distance plus lourds mais plus lents (boules de feu).
+  - **Artilleur** : tir d'artillerie à très longue portée qui explose et blesse tous les zombies
+    proches de l'impact (dégâts de zone).
+  - **Soigneur** : n'attaque pas les zombies, mais soigne en continu l'allié le plus blessé à
+    portée.
 - Contrôles à l'écran : ◀ ▶ pour se déplacer, boutons "Saut" et "Attaque" à droite.
 - Partie sans fin : le but est de survivre le plus longtemps possible et d'éliminer un maximum de
   zombies. Quand la vie du village tombe à zéro, c'est game over avec un bouton "Recommencer".

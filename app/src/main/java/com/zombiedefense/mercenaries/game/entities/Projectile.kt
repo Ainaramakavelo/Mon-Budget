@@ -11,7 +11,9 @@ class Projectile(
     private val movingRight: Boolean,
     val damage: Float,
     private val ownerColor: Int,
-) : Entity(x, y, 14f, 14f) {
+    /** > 0 pour un tir d'artillerie : inflige des dégâts à tous les zombies dans ce rayon d'impact. */
+    private val splashRadius: Float = 0f,
+) : Entity(x, y, if (splashRadius > 0f) 20f else 14f, if (splashRadius > 0f) 20f else 14f) {
 
     override var health: Float = 1f
     override val maxHealth: Float = 1f
@@ -26,14 +28,20 @@ class Projectile(
             health = 0f
             return
         }
-        for (zombie in engine.zombies) {
-            if (!zombie.isAlive) continue
-            if (bounds().intersect(zombie.bounds())) {
-                zombie.takeDamage(damage)
-                hasHit = true
-                health = 0f
-                break
+        val hitZombie = engine.zombies.firstOrNull { it.isAlive && bounds().intersect(it.bounds()) }
+        if (hitZombie != null) {
+            hasHit = true
+            if (splashRadius > 0f) {
+                val impactX = hitZombie.centerX()
+                engine.zombies.forEach { zombie ->
+                    if (zombie.isAlive && kotlin.math.abs(zombie.centerX() - impactX) <= splashRadius) {
+                        zombie.takeDamage(damage)
+                    }
+                }
+            } else {
+                hitZombie.takeDamage(damage)
             }
+            health = 0f
         }
     }
 

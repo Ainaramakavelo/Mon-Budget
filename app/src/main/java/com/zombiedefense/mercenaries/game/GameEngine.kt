@@ -78,14 +78,17 @@ class GameEngine {
         zombies.clear()
         projectiles.clear()
 
-        val soldierX = village.x - 160f
-        mercenaries.add(
-            Mercenary(soldierX, groundY - CharacterCatalog.SOLDIER.height, CharacterCatalog.SOLDIER, isPlayerControlled = true)
-        )
-        val mageX = village.x - 260f
-        mercenaries.add(
-            Mercenary(mageX, groundY - CharacterCatalog.MAGE.height, CharacterCatalog.MAGE, isPlayerControlled = false)
-        )
+        CharacterCatalog.ALL.forEachIndexed { index, type ->
+            val startX = village.x - 140f - index * 80f
+            mercenaries.add(
+                Mercenary(
+                    x = startX,
+                    y = groundY - type.height,
+                    type = type,
+                    isPlayerControlled = type.id == CharacterCatalog.SOLDIER.id,
+                )
+            )
+        }
 
         publishUiState()
     }
@@ -102,17 +105,36 @@ class GameEngine {
         mercenaries.firstOrNull { it.isPlayerControlled }?.attackRequested = true
     }
 
-    fun spawnProjectile(x: Float, y: Float, speed: Float, movingRight: Boolean, damage: Float, ownerColor: Int) {
-        projectiles.add(Projectile(x, y, speed, movingRight, damage, ownerColor))
+    fun spawnProjectile(
+        x: Float,
+        y: Float,
+        speed: Float,
+        movingRight: Boolean,
+        damage: Float,
+        ownerColor: Int,
+        splashRadius: Float = 0f,
+    ) {
+        projectiles.add(Projectile(x, y, speed, movingRight, damage, ownerColor, splashRadius))
     }
 
     fun findNearestZombieFrom(x: Float): Zombie? =
         zombies.filter { it.isAlive }.minByOrNull { kotlin.math.abs(it.centerX() - x) }
 
-    /** Un zombie s'en prend à la cible la plus proche (mercenaire croisé sur le chemin, ou le village). */
+    fun findNearestWoundedAlly(from: Mercenary): Mercenary? =
+        mercenaries
+            .filter { it.isAlive && it !== from && it.health < it.maxHealth }
+            .minByOrNull { it.distanceTo(from) }
+
+    /**
+     * Un zombie s'en prend à la cible la plus proche (mercenaire croisé sur le chemin, ou le
+     * village), sauf si un tank à fort "aggroBonus" attire son attention de plus loin.
+     */
     fun findNearestTargetForZombie(zombie: Zombie): Entity? {
         val candidates: List<Entity> = mercenaries.filter { it.isAlive } + village
-        return candidates.minByOrNull { zombie.distanceTo(it) }
+        return candidates.minByOrNull { candidate ->
+            val aggroBonus = (candidate as? Mercenary)?.type?.aggroBonus ?: 0f
+            (zombie.distanceTo(candidate) - aggroBonus).coerceAtLeast(0f)
+        }
     }
 
     fun update(dt: Float) {
