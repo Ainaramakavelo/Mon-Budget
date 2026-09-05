@@ -1,0 +1,94 @@
+# Mercenaires vs Zombies
+
+Un jeu 2D plateforme/stratégie où une équipe de mercenaires défend un village contre une vague
+inarrêtable de zombies.
+
+Tout le code est prêt. Il ne reste qu'à le compiler en fichier `.apk` installable — gratuitement,
+via GitHub, sans rien installer sur ton ordinateur.
+
+---
+
+## Étape 1 — Créer un compte GitHub (si tu n'en as pas)
+
+1. Va sur https://github.com/signup
+2. Crée un compte gratuit avec ton adresse email.
+
+## Étape 2 — Créer un nouveau dépôt (repository)
+
+1. Une fois connecté, clique sur le bouton **"+"** en haut à droite, puis **"New repository"**.
+2. Nom du dépôt : `mercenaires-vs-zombies` (ou ce que tu veux).
+3. Laisse-le en **Public** ou **Private**, peu importe.
+4. Ne coche aucune case (pas de README, pas de .gitignore) — le projet en a déjà.
+5. Clique sur **"Create repository"**.
+
+## Étape 3 — Envoyer le projet sur GitHub
+
+Sur la page qui s'affiche après la création, GitHub te propose plusieurs méthodes. La plus simple
+sans utiliser de terminal :
+
+1. Installe **GitHub Desktop** (gratuit) : https://desktop.github.com
+2. Ouvre GitHub Desktop, connecte-toi avec ton compte GitHub.
+3. Menu **File > Add local repository**, sélectionne le dossier du projet (celui-ci).
+4. Si GitHub Desktop te dit que ce n'est pas encore un dépôt Git, clique sur **"create a
+   repository"** dans ce même dossier.
+5. Clique sur **"Publish repository"** en haut, choisis le dépôt créé à l'étape 2 (ou publie
+   directement depuis ici), puis **Publish**.
+
+## Étape 4 — Laisser GitHub compiler l'APK
+
+1. Va sur la page de ton dépôt sur github.com.
+2. Clique sur l'onglet **"Actions"** en haut.
+3. Tu devrais voir un workflow **"Build APK"** en cours d'exécution (un rond orange qui tourne).
+   S'il n'a pas démarré tout seul, clique dessus puis **"Run workflow"**.
+4. Attends 3 à 6 minutes. Le rond devient une coche verte ✅ quand c'est terminé.
+5. Clique sur l'exécution terminée, puis tout en bas sur l'artifact
+   (**"mercenaires-vs-zombies-apk"**) dans la section *Artifacts* : ça télécharge un fichier `.zip`
+   contenant `app-debug.apk`.
+
+## Étape 5 — Installer l'APK sur le téléphone
+
+1. Transfère le fichier `app-debug.apk` sur ton téléphone (par email, Google Drive, câble USB...).
+2. Ouvre le fichier `.apk` depuis le gestionnaire de fichiers du téléphone.
+3. Si le téléphone bloque l'installation : va dans **Réglages > Applications > Autorisations
+   spéciales > Installer des applications inconnues**, et autorise l'application que tu utilises
+   pour ouvrir le fichier (ex : Fichiers, Chrome...).
+4. Reviens sur le fichier `.apk` et installe. L'icône de l'application apparaît sur l'écran
+   d'accueil.
+
+---
+
+## Ce que fait l'application (v0.1)
+
+- Un village (à droite de l'écran) avec une barre de vie, à défendre.
+- Une horde de zombies inarrêtable : elle spawn en continu depuis la gauche, et l'intervalle entre
+  deux zombies rétrécit avec le temps (ça devient plus dur plus on survit).
+- Deux types de zombies pour l'instant : le "marcheur" (lent, robuste) et le "coureur" (rapide,
+  fragile) — de plus en plus de coureurs apparaissent avec le temps.
+- Une équipe de mercenaires : tu contrôles directement un **Soldat** (déplacement gauche/droite,
+  saut, attaque au corps-à-corps) pendant qu'un **Mage** allié se bat automatiquement à distance
+  (boules de feu) contre le zombie le plus proche.
+- Contrôles à l'écran : ◀ ▶ pour se déplacer, boutons "Saut" et "Attaque" à droite.
+- Partie sans fin : le but est de survivre le plus longtemps possible et d'éliminer un maximum de
+  zombies. Quand la vie du village tombe à zéro, c'est game over avec un bouton "Recommencer".
+- Pour l'instant l'art est en formes géométriques colorées (pas de sprites dessinés) — à remplacer
+  plus tard par de vrais visuels si tu veux.
+
+## Comment le jeu est construit (pour la suite)
+
+Le code est organisé pour qu'ajouter du contenu plus tard soit simple :
+
+- `game/CharacterType.kt` : la fiche de stats de chaque type de mercenaire (vie, dégâts, portée,
+  vitesse, corps-à-corps ou à distance...). Ajouter un archer, un tank, un soigneur, etc. revient à
+  ajouter une entrée dans ce fichier — c'est le point d'extension prévu pour arriver aux "dizaines
+  de personnages" évoqués au départ.
+- `game/ZombieType.kt` : pareil, côté zombies (variantes de vitesse/vie/dégâts).
+- `game/entities/` : le comportement (déplacement, attaque, rendu) de chaque type d'entité
+  (mercenaire, zombie, village, projectile).
+- `game/GameEngine.kt` : la boucle de simulation (vagues, IA, collisions) et le rendu.
+
+## Modifier l'application plus tard
+
+Pour toute modification (nouveaux personnages, contexte narratif, nouvelles mécaniques, plusieurs
+mercenaires jouables, multijoueur...), dis-le : le code sera modifié, et il suffira de renvoyer les
+fichiers modifiés sur GitHub (GitHub Desktop détecte les changements et propose de les publier en
+un clic) pour qu'un nouvel APK soit généré automatiquement.
