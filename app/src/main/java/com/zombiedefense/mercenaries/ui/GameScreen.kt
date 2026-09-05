@@ -27,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.zombiedefense.mercenaries.game.GameView
+import com.zombiedefense.mercenaries.game.Lore
 import com.zombiedefense.mercenaries.game.TeamConfig
 
 @Composable
@@ -48,7 +49,7 @@ fun GameScreen(teamConfig: TeamConfig, onBackToSelection: () -> Unit) {
                 .padding(12.dp),
         ) {
             Text(
-                text = "Village",
+                text = Lore.VILLAGE_NAME,
                 color = Color.White,
                 style = MaterialTheme.typography.labelLarge,
             )
@@ -94,7 +95,7 @@ fun GameScreen(teamConfig: TeamConfig, onBackToSelection: () -> Unit) {
                 contentAlignment = Alignment.Center,
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(text = "Le village est tombé", color = Color.White, style = MaterialTheme.typography.headlineMedium)
+                    Text(text = "${Lore.VILLAGE_NAME} est tombé", color = Color.White, style = MaterialTheme.typography.headlineMedium)
                     Text(
                         text = "Survécu ${uiState.survivedSeconds}s — ${uiState.zombiesKilled} zombies éliminés",
                         color = Color.White,

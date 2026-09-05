@@ -2,6 +2,7 @@ package com.zombiedefense.mercenaries.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
@@ -29,13 +31,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import com.zombiedefense.mercenaries.game.CharacterCatalog
 import com.zombiedefense.mercenaries.game.CharacterType
 import com.zombiedefense.mercenaries.game.TeamConfig
 
 @Composable
-fun TeamSelectionScreen(onStart: (TeamConfig) -> Unit) {
+fun TeamSelectionScreen(onStart: (TeamConfig) -> Unit, onViewStory: () -> Unit) {
     var playerCharacterId by remember { mutableStateOf(CharacterCatalog.SOLDIER.id) }
     val includedIds = remember {
         mutableStateOf(CharacterCatalog.ALL.map { it.id }.toSet())
@@ -47,11 +50,22 @@ fun TeamSelectionScreen(onStart: (TeamConfig) -> Unit) {
             .background(Color(0xFF0D1B0D))
             .padding(16.dp),
     ) {
-        Text(
-            text = "Choisis ton équipe",
-            color = Color.White,
-            style = MaterialTheme.typography.headlineSmall,
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = "Choisis ton équipe",
+                color = Color.White,
+                style = MaterialTheme.typography.headlineSmall,
+            )
+            Text(
+                text = "Revoir l'histoire",
+                color = Color(0xFFFFC107),
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier.clickable(onClick = onViewStory),
+            )
+        }
         Text(
             text = "Sélectionne le mercenaire que tu joues directement, et coche ceux qui t'accompagnent au combat.",
             color = Color(0xFFBBBBBB),
@@ -115,7 +129,8 @@ private fun CharacterCard(
             .fillMaxHeight()
             .background(Color(0xFF1B2A1B), RoundedCornerShape(12.dp))
             .border(2.dp, borderColor, RoundedCornerShape(12.dp))
-            .padding(10.dp),
+            .padding(10.dp)
+            .verticalScroll(rememberScrollState()),
     ) {
         Box(
             modifier = Modifier
@@ -136,6 +151,13 @@ private fun CharacterCard(
             Text(text = "Dégâts : ${type.damage.toInt()}", color = Color(0xFFBBBBBB), style = MaterialTheme.typography.bodySmall)
         }
         Text(text = "Portée : ${type.attackRange.toInt()}", color = Color(0xFFBBBBBB), style = MaterialTheme.typography.bodySmall)
+        Text(
+            text = type.bio,
+            color = Color(0xFF8FAF8F),
+            style = MaterialTheme.typography.bodySmall,
+            fontStyle = FontStyle.Italic,
+            modifier = Modifier.padding(top = 6.dp),
+        )
 
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 6.dp)) {
             RadioButton(selected = isPlayable, onClick = onSelectPlayable)

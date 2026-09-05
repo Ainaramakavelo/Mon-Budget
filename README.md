@@ -1,7 +1,8 @@
 # Mercenaires vs Zombies
 
-Un jeu 2D plateforme/stratégie où une équipe de mercenaires défend un village contre une vague
-inarrêtable de zombies.
+Un jeu 2D plateforme/stratégie où une équipe de mercenaires défend le village de **Valombre**
+contre une vague inarrêtable de zombies, réveillés par une malédiction dans l'ancien cimetière des
+Cendres.
 
 Tout le code est prêt. Il ne reste qu'à le compiler en fichier `.apk` installable — gratuitement,
 via GitHub, sans rien installer sur ton ordinateur.
@@ -57,12 +58,16 @@ sans utiliser de terminal :
 
 ---
 
-## Ce que fait l'application (v0.3)
+## Ce que fait l'application (v0.4)
 
+- Un écran d'histoire au lancement : le contexte de Valombre et de sa malédiction, avec un bouton
+  "Rassembler l'équipe" pour continuer. Un lien "Revoir l'histoire" sur l'écran de sélection permet
+  d'y revenir à tout moment.
 - Un écran de sélection d'équipe avant la partie : tu choisis lequel des 6 mercenaires tu joues
   directement (bouton "Jouable"), et tu coches ceux qui t'accompagnent au combat (les autres restent
-  à la caserne). La fiche de chaque personnage (PV, dégâts ou soin, portée) s'affiche sur sa carte.
-- Un village (à droite de l'écran) avec une barre de vie, à défendre.
+  à la caserne). La fiche de chaque personnage (rôle, PV, dégâts ou soin, portée, et une courte bio)
+  s'affiche sur sa carte.
+- Le village de Valombre (à droite de l'écran) avec une barre de vie, à défendre.
 - Une horde de zombies inarrêtable : elle spawn en continu depuis la gauche, et l'intervalle entre
   deux zombies rétrécit avec le temps (ça devient plus dur plus on survit).
 - Deux types de zombies pour l'instant : le "marcheur" (lent, robuste) et le "coureur" (rapide,

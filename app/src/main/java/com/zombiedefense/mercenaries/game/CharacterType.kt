@@ -8,6 +8,8 @@ package com.zombiedefense.mercenaries.game
 data class CharacterType(
     val id: String,
     val displayName: String,
+    /** Courte phrase de contexte affichée sur la fiche du personnage. */
+    val bio: String,
     val bodyColor: Int,
     val maxHealth: Float,
     val damage: Float,
@@ -31,6 +33,7 @@ object CharacterCatalog {
     val SOLDIER = CharacterType(
         id = "soldier",
         displayName = "Soldat",
+        bio = "Ancien garde royal, il n'a plus de foyer à défendre — alors il défend celui des autres.",
         bodyColor = 0xFF2E5AAC.toInt(),
         maxHealth = 160f,
         damage = 22f,
@@ -43,6 +46,7 @@ object CharacterCatalog {
     val MAGE = CharacterType(
         id = "mage",
         displayName = "Mage",
+        bio = "Exclu de l'Académie pour ses recherches sur la nécromancie, il en connaît les faiblesses.",
         bodyColor = 0xFF7B2FBF.toInt(),
         maxHealth = 90f,
         damage = 30f,
@@ -56,6 +60,7 @@ object CharacterCatalog {
     val ARCHER = CharacterType(
         id = "archer",
         displayName = "Archer",
+        bio = "Chasseuse des forêts du Nord, elle n'a jamais raté une cible vivante. Les morts seront une première.",
         bodyColor = 0xFF2E7D32.toInt(),
         maxHealth = 100f,
         damage = 16f,
@@ -71,6 +76,7 @@ object CharacterCatalog {
     val HEALER = CharacterType(
         id = "healer",
         displayName = "Soigneur",
+        bio = "Il ne s'est jamais soucié de savoir si ses patients étaient déjà morts avant qu'il arrive.",
         bodyColor = 0xFF80DEEA.toInt(),
         maxHealth = 80f,
         damage = 0f,
@@ -85,6 +91,7 @@ object CharacterCatalog {
     val ARTILLERIST = CharacterType(
         id = "artillerist",
         displayName = "Artilleur",
+        bio = "Ancien canonnier de siège : il préfère ses zombies en plusieurs morceaux, tous en même temps.",
         bodyColor = 0xFFBF360C.toInt(),
         maxHealth = 110f,
         damage = 45f,
@@ -101,6 +108,7 @@ object CharacterCatalog {
     val TANK = CharacterType(
         id = "tank",
         displayName = "Tank",
+        bio = "Une armure de fortune, une carrure de forgeron : il encaisse pour que les autres n'aient pas à le faire.",
         bodyColor = 0xFF455A64.toInt(),
         maxHealth = 320f,
         damage = 18f,

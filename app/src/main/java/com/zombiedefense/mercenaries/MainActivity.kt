@@ -13,6 +13,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.zombiedefense.mercenaries.game.TeamConfig
 import com.zombiedefense.mercenaries.ui.GameScreen
+import com.zombiedefense.mercenaries.ui.StoryScreen
 import com.zombiedefense.mercenaries.ui.TeamSelectionScreen
 
 class MainActivity : ComponentActivity() {
@@ -21,12 +22,20 @@ class MainActivity : ComponentActivity() {
         setContent {
             MaterialTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
+                    var showStory by remember { mutableStateOf(true) }
                     var teamConfig by remember { mutableStateOf<TeamConfig?>(null) }
                     val currentConfig = teamConfig
-                    if (currentConfig == null) {
-                        TeamSelectionScreen(onStart = { teamConfig = it })
-                    } else {
-                        GameScreen(teamConfig = currentConfig, onBackToSelection = { teamConfig = null })
+
+                    when {
+                        showStory -> StoryScreen(onContinue = { showStory = false })
+                        currentConfig == null -> TeamSelectionScreen(
+                            onStart = { teamConfig = it },
+                            onViewStory = { showStory = true },
+                        )
+                        else -> GameScreen(
+                            teamConfig = currentConfig,
+                            onBackToSelection = { teamConfig = null },
+                        )
                     }
                 }
             }
