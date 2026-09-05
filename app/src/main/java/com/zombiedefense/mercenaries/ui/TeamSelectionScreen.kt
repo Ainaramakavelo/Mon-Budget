@@ -8,10 +8,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -50,79 +48,86 @@ fun TeamSelectionScreen(onStart: (TeamConfig) -> Unit, onViewStory: () -> Unit) 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF0D1B0D))
-            .padding(16.dp),
+            .background(Color(0xFF0D1B0D)),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text(
-                text = "Choisis ton équipe",
-                color = Color.White,
-                style = MaterialTheme.typography.headlineSmall,
-            )
-            Text(
-                text = "Revoir l'histoire",
-                color = Color(0xFFFFC107),
-                style = MaterialTheme.typography.bodyMedium,
-                modifier = Modifier.clickable(onClick = onViewStory),
-            )
-        }
-        Text(
-            text = "Sélectionne le mercenaire que tu joues directement, et coche ceux qui t'accompagnent au combat.",
-            color = Color(0xFFBBBBBB),
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(top = 4.dp, bottom = 12.dp),
-        )
-
-        Row(
+        // Zone défilante : tout le contenu informatif. Le bouton reste fixe en bas, toujours
+        // accessible même si l'écran est trop petit pour tout afficher d'un coup.
+        Column(
             modifier = Modifier
                 .weight(1f)
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+                .verticalScroll(rememberScrollState())
+                .padding(16.dp),
         ) {
-            CharacterCatalog.ALL.forEach { type ->
-                CharacterCard(
-                    type = type,
-                    isPlayable = playerCharacterId == type.id,
-                    isIncluded = includedIds.value.contains(type.id),
-                    onSelectPlayable = {
-                        playerCharacterId = type.id
-                        includedIds.value = includedIds.value + type.id
-                    },
-                    onToggleIncluded = { checked ->
-                        includedIds.value = if (checked) {
-                            includedIds.value + type.id
-                        } else {
-                            includedIds.value - type.id
-                        }
-                    },
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text(
+                    text = "Choisis ton équipe",
+                    color = Color.White,
+                    style = MaterialTheme.typography.headlineSmall,
+                )
+                Text(
+                    text = "Revoir l'histoire",
+                    color = Color(0xFFFFC107),
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier.clickable(onClick = onViewStory),
                 )
             }
-        }
+            Text(
+                text = "Sélectionne le mercenaire que tu joues directement, et coche ceux qui t'accompagnent au combat.",
+                color = Color(0xFFBBBBBB),
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = 4.dp, bottom = 12.dp),
+            )
 
-        Text(
-            text = "Menaces liées à la malédiction",
-            color = Color(0xFFFF5252),
-            style = MaterialTheme.typography.titleSmall,
-            modifier = Modifier.padding(top = 12.dp),
-        )
-        Text(
-            text = "Des champions maudits surgissent du cimetière au fil de la partie, de plus en plus coriaces.",
-            color = Color(0xFFBBBBBB),
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(top = 2.dp, bottom = 8.dp),
-        )
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
-        ) {
-            BossCatalog.ALL.forEach { bossType ->
-                BossCard(bossType)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                CharacterCatalog.ALL.forEach { type ->
+                    CharacterCard(
+                        type = type,
+                        isPlayable = playerCharacterId == type.id,
+                        isIncluded = includedIds.value.contains(type.id),
+                        onSelectPlayable = {
+                            playerCharacterId = type.id
+                            includedIds.value = includedIds.value + type.id
+                        },
+                        onToggleIncluded = { checked ->
+                            includedIds.value = if (checked) {
+                                includedIds.value + type.id
+                            } else {
+                                includedIds.value - type.id
+                            }
+                        },
+                    )
+                }
+            }
+
+            Text(
+                text = "Menaces liées à la malédiction",
+                color = Color(0xFFFF5252),
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.padding(top = 20.dp),
+            )
+            Text(
+                text = "Des champions maudits surgissent du cimetière au fil de la partie, de plus en plus coriaces.",
+                color = Color(0xFFBBBBBB),
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = 2.dp, bottom = 8.dp),
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                BossCatalog.ALL.forEach { bossType ->
+                    BossCard(bossType)
+                }
             }
         }
 
@@ -133,7 +138,7 @@ fun TeamSelectionScreen(onStart: (TeamConfig) -> Unit, onViewStory: () -> Unit) 
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 12.dp),
+                .padding(horizontal = 16.dp, vertical = 12.dp),
         ) {
             Text("Commencer la partie")
         }
@@ -152,11 +157,9 @@ private fun CharacterCard(
     Column(
         modifier = Modifier
             .width(150.dp)
-            .fillMaxHeight()
             .background(Color(0xFF1B2A1B), RoundedCornerShape(12.dp))
             .border(2.dp, borderColor, RoundedCornerShape(12.dp))
-            .padding(10.dp)
-            .verticalScroll(rememberScrollState()),
+            .padding(10.dp),
     ) {
         Box(
             modifier = Modifier
@@ -208,11 +211,9 @@ private fun BossCard(type: BossType) {
     Column(
         modifier = Modifier
             .width(180.dp)
-            .height(190.dp)
             .background(Color(0xFF2A1414), RoundedCornerShape(12.dp))
             .border(2.dp, Color(0xFF6B1414), RoundedCornerShape(12.dp))
-            .padding(10.dp)
-            .verticalScroll(rememberScrollState()),
+            .padding(10.dp),
     ) {
         Box(
             modifier = Modifier
